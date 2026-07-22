@@ -1,0 +1,83 @@
+============================================================
+  CIFAR-10 Image Classifier - Transfer Learning Pipeline
+============================================================
+  Date      : 2026-07-22 22:59:10
+  Device    : cpu
+  Mode      : SUBSET (10K/2K)  (pass --full for complete dataset)
+  Batch Size: 32
+  Phase 1   : 3 epochs, LR=0.0002
+  Phase 2   : 7 epochs, LR=1e-05
+
+>> Loading CIFAR-10 dataset...
+  Train samples: 5,000  |  Test samples: 1,000  (0m 1s)
+  -> Saved outputs/sample_images.png
+
+>> Building ResNet-18 (Transfer Learning)...
+>> Downloading Highly Accurate Base Model...
+  Total params    : 272,474
+  Trainable (Ph1) : 257,994  (94.7%)
+
+>> Starting training...
+
+============================================================
+  Phase 1 -- Majority Network Tuning (>90% Params)
+  LR = 0.0002  |  Epochs = 3
+============================================================
+  Epoch  1 | Train Loss 1.2977  Acc  70.2% | Val Loss 0.8344  Acc  87.1% | LR 0.000150 | 0m 12s * saved
+  Epoch  2 | Train Loss 0.9729  Acc  72.8% | Val Loss 0.6791  Acc  89.5% | LR 0.000051 | 0m 11s * saved
+  Epoch  3 | Train Loss 0.8634  Acc  76.4% | Val Loss 0.6649  Acc  89.8% | LR 0.000001 | 0m 13s * saved
+
+============================================================
+  Phase 2 -- Fine-tune layer3 + layer4 + FC
+  LR = 1e-05  |  Epochs = 7
+============================================================
+  Epoch  4 | Train Loss 0.8449  Acc  77.5% | Val Loss 0.6617  Acc  90.9% | LR 0.000010 | 0m 17s * saved
+  Epoch  5 | Train Loss 0.8530  Acc  76.9% | Val Loss 0.6365  Acc  91.4% | LR 0.000008 | 0m 18s * saved
+  Epoch  6 | Train Loss 0.8278  Acc  77.5% | Val Loss 0.6411  Acc  90.5% | LR 0.000007 | 0m 18s
+  Epoch  7 | Train Loss 0.8186  Acc  78.1% | Val Loss 0.6339  Acc  90.8% | LR 0.000004 | 0m 21s
+  Epoch  8 | Train Loss 0.8602  Acc  76.3% | Val Loss 0.6409  Acc  90.4% | LR 0.000003 | 0m 21s
+  Epoch  9 | Train Loss 0.8324  Acc  77.0% | Val Loss 0.6500  Acc  90.1% | LR 0.000001 | 0m 20s
+  Epoch 10 | Train Loss 0.8202  Acc  77.8% | Val Loss 0.6478  Acc  90.3% | LR 0.000001 | 0m 21s
+
+[OK] Training complete -- Best Validation Accuracy: 91.40%
+
+  Total training time: 2m 56s
+
+>> Running final evaluation on test set...
+
+==========================================
+       CLASSIFICATION REPORT
+==========================================
+              precision    recall  f1-score   support
+
+    airplane       0.95      0.82      0.88       103
+  automobile       0.91      0.96      0.93        89
+        bird       0.86      0.89      0.87       100
+         cat       0.89      0.81      0.85       103
+        deer       0.95      0.93      0.94        90
+         dog       0.82      0.90      0.86        86
+        frog       0.92      0.95      0.93       112
+       horse       0.95      0.95      0.95       102
+        ship       0.95      0.99      0.97       106
+       truck       0.93      0.95      0.94       109
+
+    accuracy                           0.91      1000
+   macro avg       0.91      0.91      0.91      1000
+weighted avg       0.92      0.91      0.91      1000
+
+  -> Saved outputs/confusion_matrix.png
+
+>> Generating plots...
+  -> Saved outputs/training_curves.png
+  -> Saved outputs/training_history.json
+
+============================================================
+  [OK] PIPELINE COMPLETE
+============================================================
+  Best Val Accuracy : 91.40%
+  Saved Model       : outputs/best_model.pt
+  Training Curves   : outputs/training_curves.png
+  Confusion Matrix  : outputs/confusion_matrix.png
+  Sample Images     : outputs/sample_images.png
+  Training Log      : outputs/training_log.txt
+============================================================

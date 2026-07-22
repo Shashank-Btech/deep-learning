@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIFAR-10 AI Vision</title>
+    <meta name="description" content="CIFAR-10 Image Classifier using ResNet-18 Deep Learning. Upload images, view accuracy charts, and train custom datasets.">
+    <!-- Modern Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for interactive accuracy graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-brain glow-icon"></i>
+                <h1>Neural Vision</h1>
+            </div>
+            <p class="subtitle">Upload an image to classify it across 10 distinct categories using a ResNet-18 Deep Learning model.</p>
+        </header>
+
+        <div class="app-card glass-panel">
+            <div class="upload-section" id="drop-zone">
+                <input type="file" id="file-input" accept="image/*" hidden>
+                
+                <div class="upload-content" id="upload-content">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <h3>Drag & Drop</h3>
+                    <p>or <span class="browse-link">browse</span> to choose a file</p>
+                    <span class="file-hint">Supports JPG, PNG</span>
+                </div>
+                
+                <div class="preview-container hidden" id="preview-container">
+                    <img id="image-preview" src="" alt="Preview">
+                    <button class="remove-btn" id="remove-btn" title="Remove Image">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                
+                <div class="loading-state hidden" id="loading-state">
+                    <div class="spinner"></div>
+                    <p>Analyzing image structure...</p>
+                </div>
+
+                <div class="results-container hidden" id="results-container">
+                    <h2>Analysis Results</h2>
+                    <div class="prediction-list" id="prediction-list">
+                        <!-- Predictions will be injected here via JS -->
+                    </div>
+                </div>
+
+                <!-- Unrecognized Image State -->
+                <div class="unrecognized-state hidden" id="unrecognized-state">
+                    <div class="unrecognized-header">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h3>Image Not Recognized</h3>
+                    </div>
+                    <p class="unrecognized-msg" id="unrecognized-msg">The model couldn't confidently classify this image.</p>
+                    
+                    <div class="low-confidence-results" id="low-confidence-results">
+                        <!-- Low-confidence predictions shown here -->
+                    </div>
+
+                    <div class="add-dataset-form">
+                        <p class="form-label">Help improve the model — label this image:</p>
+                        <div class="label-input-row">
+                            <input type="text" id="label-input" placeholder="e.g. airplane, cat, dog..." autocomplete="off" list="class-suggestions">
+                            <datalist id="class-suggestions"></datalist>
+                            <button class="btn-add-dataset" id="btn-add-dataset">
+                                <i class="fa-solid fa-plus"></i> Add to Dataset
+                            </button>
+                        </div>
+                        <p class="form-hint" id="form-hint"></p>
+                    </div>
+                </div>
+
+                <div class="idle-state" id="idle-state">
+                    <div class="idle-icon-wrapper">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <p>Awaiting visual input</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Interactive Accuracy Chart Section -->
+        <div class="chart-section glass-panel" id="chart-section">
+            <div class="chart-header">
+                <div class="chart-title-row">
+                    <i class="fa-solid fa-chart-line chart-icon"></i>
+                    <h2>Model Accuracy</h2>
+                </div>
+                <div class="chart-meta" id="chart-meta">
+                    <!-- Best accuracy badge injected by JS -->
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="accuracy-chart"></canvas>
+            </div>
+            <div class="chart-legend-custom" id="chart-legend-custom">
+                <span class="legend-item"><span class="legend-dot train-dot"></span> Train Accuracy</span>
+                <span class="legend-item"><span class="legend-dot val-dot"></span> Val Accuracy</span>
+                <span class="legend-item"><span class="legend-dot loss-dot"></span> Val Loss</span>
+            </div>
+        </div>
+
+        <!-- Retrain Section -->
+        <div class="retrain-section glass-panel" id="retrain-section">
+            <div class="retrain-header">
+                <i class="fa-solid fa-rotate"></i>
+                <h3>Retrain Model</h3>
+            </div>
+            <p class="retrain-desc">After adding custom images, retrain the model to improve recognition.</p>
+            <button class="btn-retrain" id="btn-retrain">
+                <i class="fa-solid fa-play"></i> Start Retraining
+            </button>
+            <p class="retrain-status" id="retrain-status"></p>
+        </div>
+        
+        <footer>
+            <p>Built with <i class="fa-brands fa-python"></i> PyTorch & FastAPI</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
